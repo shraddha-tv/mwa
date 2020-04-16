@@ -9,6 +9,10 @@ import * as actions from './actions'
 import * as getters from './getters' 
 
 import user from '../components/User/UserStore'
+import goods from '../components/Goods/GoodsStore'
+import states from '../components/AdminBoard/State/StateStore'
+import category from '../components/AdminBoard/GoodsCategory/CategoryStore'
+import goods_name from '../components/AdminBoard/GoodsName/GoodsNameStore'
 //===========================================================================================================
 //                                      Common Components
 //===========================================================================================================
@@ -21,6 +25,10 @@ export default new Vuex.Store({
     mutations,
     actions,
     modules : {
-        user
+        user,
+        goods,
+        states,
+        category,
+        goods_name
     }
 });

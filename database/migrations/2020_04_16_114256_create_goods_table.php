@@ -15,13 +15,19 @@ class CreateGoodsTable extends Migration
     {
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->integer('price');
             $table->integer('unit_price');
+            $table->unsignedBigInteger('name_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('available_amount')->default(0);
             $table->string('state')->default('active');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('name_id')->references('id')->on('goods_names')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('category_id')->references('id')->on('good_categories')->onUpdate('cascade');
         });
     }
 

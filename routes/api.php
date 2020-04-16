@@ -18,13 +18,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::middleware('auth:api')->namespace('API')->group(function () {
-    Route::namespace('API')->group(function () {
+Route::middleware('auth:api')->namespace('API')->group(function () {
+    // Route::namespace('API')->group(function () {
 
 
     //route api for user show, create, update, delete
-    // Route::get('users/{var}', 'UserController@getControler');
     // Route::post('users/{var}', 'UserController@postControler');
+    Route::get('users/{var}', 'UserController@controler');
     Route::apiResource('users', 'UserController');
+    
+    
+    Route::get('goods/{var}', 'GoodsController@controler');
+    Route::apiResource('goods', 'GoodsController');
+
+
+    Route::apiResource('states', 'StateController');
+
+
+    Route::apiResource('categories', 'GoodCategoryController');
+
+    Route::apiResource('goods_name', 'GoodsNameController');
 
 });

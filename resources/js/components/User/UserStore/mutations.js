@@ -9,6 +9,20 @@ export const set_all_users = (state, items) => {
 // **********************************************************************************************************
 //                           Set Dialog Value For Toggle Form Dialog
 // **********************************************************************************************************
-export const set_toggle_form = (state) => {
+export const set_dialog_form = (state) => {
     return state.dialog = !state.dialog
+}
+
+// **********************************************************************************************************
+//                           Set Dialog Value For Toggle Form Dialog
+// **********************************************************************************************************
+export const set_edit_item = (state,item) => {
+    return state.editItem = item
+}
+
+// **********************************************************************************************************
+//                           Set Dialog Value For Toggle Form Dialog
+// **********************************************************************************************************
+export const set_asserts = (state,item) => {
+    return state.asserts = item
 }

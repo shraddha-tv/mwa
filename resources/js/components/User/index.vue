@@ -1,19 +1,18 @@
 <template>
-  <v-card>
-    User
-  </v-card>
+  <div>
+   <user-table></user-table>
+   <user-dialog></user-dialog>
+  </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import table from './UserTable'
+import dialog from './UserDialog'
+
 export default {
-  created(){
-    this.getUsers()
-  },
-  methods:{
-    ...mapActions({
-      getUsers : "user/get_users"
-    })
+  components:{
+    'user-table':table,
+    'user-dialog':dialog
   }
 }
 </script>

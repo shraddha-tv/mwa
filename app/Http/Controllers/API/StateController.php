@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Model\State;
+use App\Http\Resources\State as StateResource;
+
 class StateController extends Controller
 {
     /**
@@ -14,7 +17,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        //
+        return StateResource::collection(State::all());
     }
 
     /**
@@ -25,7 +28,18 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string|max:50',
+            ]);
+
+            $request['password'] =  bcrypt('password');
+            $state = State::create($request->all());
+
+            return response()->json(["message" => "Add State Successfully", "responce" => $state], 201);
+        } catch (Exception $e) {
+            return response()->json(["message" => "Somthing want to wrong on the server."], $e->getCode());
+        }
     }
 
     /**
@@ -48,7 +62,18 @@ class StateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $state = State::findOrFail($id);
+
+            $request->validate([
+                'name' => 'required|string|max:50',
+            ]);
+
+            $state->update($request->all());
+            return response()->json(["message" => "State Update Successfully", "responce" => $state], 201);
+        } catch (Exception $e) {
+            return response()->json(["message" => "Somthing want to wrong on the server."], $e->getCode());
+        }
     }
 
     /**
@@ -59,6 +84,8 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $state = State::findOrFail($id);
+        $state->delete();
+        return response()->json(null, 204);
     }
 }
