@@ -31,19 +31,32 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "GoogleMap",
+  prop:["latitude","longitude"],
   data() {
     return {
       // default to Montreal to keep it simple
       // change this to whatever makes sense
-      center: { lat: 45.508, lng: -73.587 },
       markers: [],
       places: [],
       currentPlace: null
     };
   },
-
+  computed:{
+    ...mapGetters({
+      profile: "goods/getProfile"
+    }),
+    center(){
+      const marker = {
+        lat: parseFloat(this.profile.farmer.location.latitude),
+          lng: parseFloat(this.profile.farmer.location.longitude)
+        };
+      this.markers.push({ position: marker });
+      return marker;
+    }
+  },
   mounted() {
     this.geolocate();
   },
@@ -55,23 +68,31 @@ export default {
     },
     addMarker() {
       if (this.currentPlace) {
+        // const marker = {
+        //   lat: this.currentPlace.geometry.location.lat(),
+        //   lng: this.currentPlace.geometry.location.lng()
+        // };
         const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+          lat: this.coordinate.latitude,
+          lng: this.coordinate.longitude
         };
         this.markers.push({ position: marker });
         this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
+        this.currentPlace = marker;
       }
     },
     geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+      // navigator.geolocation.getCurrentPosition(position => {
+      //   this.center = {
+      //     lat: position.coords.latitude,
+      //     lng: position.coords.longitude
+      //   };
+      // });
+      const marker = {
+        lat: parseFloat(this.profile.farmer.location.latitude),
+          lng: parseFloat(this.profile.farmer.location.longitude)
         };
-      });
+      this.markers.push({ position: marker });
     }
   }
 };

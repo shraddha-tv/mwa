@@ -64,8 +64,8 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-layout>
-            <google-map />
+          <v-layout v-if="profile.farmer">
+            <google-map/>
           </v-layout>
         </v-flex>
         <v-spacer></v-spacer>
