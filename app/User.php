@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','nic','state_id','type'
+        'name', 'email','name_eng','password','nic','state_id','type','create_by','verified_by'
     ];
 
     /**
@@ -39,7 +39,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function location(){
-        return $this->belongsTo('App\Model\Location');
+    public function locations(){
+        return $this->hasMany('App\Model\Location');
+    }
+
+    public function contacts(){
+        return $this->hasMany('App\Model\Contact');
+    }
+
+    public function createBy(){
+        return $this->belongsTo('App\User','create_by');
+    }
+
+    public function verifyBy(){
+        return $this->belongsTo('App\User','verified_by');
+    }
+
+    public function goods(){
+        return $this->hasMany('App\Model\Goods');
     }
 }

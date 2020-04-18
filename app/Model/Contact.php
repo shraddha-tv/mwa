@@ -10,7 +10,7 @@ class Contact extends Model
     use SoftDeletes;
 
     protected $fillable = [
-       ' number',
-       ' state',
+       'number',
+       'state',
     ];
 }

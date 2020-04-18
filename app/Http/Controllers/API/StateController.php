@@ -50,7 +50,8 @@ class StateController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = State::findOrFail($id);
+        return new StateResource($item);
     }
 
     /**

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Model\State;
+use App\Model\Location;
+use App\Model\Contact;
 use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
@@ -28,7 +30,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(User::where('type','!=','farmers')->paginate());
     }
 
     /**
@@ -45,9 +47,23 @@ class UserController extends Controller
             ]);
 
             $request['password'] =  bcrypt('password');
+            $request['state_id'] =  1;
+            $request['create_by'] =  $request->user()->id;
+
+            $location = $request->location;
+            unset($request['location']);
+
             $user = User::create($request->all());
 
-            $user->location->create($request->location);
+            // create location
+            $user->locations()->create($location);
+
+            // create contacts
+            $contacts = $request->contact;
+            foreach ($contacts as $item) {
+                $user->contacts()->create(["number"=>$item]);
+            }
+
 
             return response()->json(["message" => "Add User Successfully", "responce" => $user], 201);
         } catch (Exception $e) {
@@ -63,7 +79,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = User::findOrFail($id);
+        return new UserResource($item);
     }
 
     /**
@@ -82,8 +99,25 @@ class UserController extends Controller
                 'name' => 'required|string|max:50',
             ]);
 
+            if($request->verify == "verified"){
+                $request['verified_by'] =  $request->user()->id;
+            }
+
             $user->update($request->all());
-            $user->location->update($request->location);
+
+            // update location
+            $user->locations()->update($request->location);
+
+            // update contacts
+            $contacts = $request->contact;
+            foreach ($contacts as $item) {
+                $number = Contact::where('number',$item)->first();
+                if($number != null){
+                    $number->Update(["number"=>$item]);
+                }else{
+                    $user->contacts()->create(["number"=>$item]);
+                }
+            }
             
             return response()->json(["message" => "User Update Successfully", "responce" => $user], 201);
         } catch (Exception $e) {
@@ -129,7 +163,7 @@ class UserController extends Controller
     {
         $searchquery = $request->searchquery;
 
-        $result =  User::where('type', 'farmer')
+        $result =  User::where('type','farmers')
         ->where(function ($query) use ($searchquery) {
             $query->where('name', 'like', '%' . $searchquery . '%')
                 ->orWhere('email', 'LIKE', '%' . $searchquery . '%')

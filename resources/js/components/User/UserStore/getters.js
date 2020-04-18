@@ -26,3 +26,10 @@ export const getEditItem = (state) => {
 export const getAsserts = (state) => {
     return state.asserts
 }
+
+// **********************************************************************************************************
+//                           Get Dialog Value for Form
+// **********************************************************************************************************
+export const getProfile = (state) => {
+    return state.activeUser
+}

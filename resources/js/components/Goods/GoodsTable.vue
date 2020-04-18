@@ -4,7 +4,7 @@
       <v-layout justify-space-between>
         <v-flex>Goods Table</v-flex>
         <v-spacer></v-spacer>
-        <v-flex xs1>
+        <v-flex xs4 md1>
           <v-btn @click="openDialog">
             <v-icon>add</v-icon>
             <span>ADD NEW</span>
@@ -22,7 +22,7 @@
             <v-btn icon @click="editItem(item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="deleteAction(item.id)">
               <v-icon>delete</v-icon>
             </v-btn>
           </v-layout>
@@ -32,12 +32,12 @@
                                        Custom Pagination of Data Table
         <--===============================================================================================-->
         <div class="text-xs-center pt-2 grey lighten-2">
-          <v-layout>
-            <v-flex xs2></v-flex>
-            <v-flex xs6>
+          <v-layout wrap>
+            <v-flex xs1 md2></v-flex>
+            <v-flex xs12 md6>
               <v-pagination v-model="page" :length="pages" :total-visible="7" color="grey darken-2"></v-pagination>
             </v-flex>
-            <v-flex xs4 layout>
+            <v-flex xs12 md4 layout>
               <v-subheader
                 v-if="allData.data"
               >1-{{ allData.data.length }} of {{ allData.data.length }}</v-subheader>
@@ -59,6 +59,7 @@ export default {
       { text: "PRICE", value: "price" },
       { text: "UNIT PRICE", value: "unit_price" },
       { text: "AMOUNT", value: "available_amount" },
+      { text: "FARMER", value: "farmer" },
       { text: "ACTION", value: "action", width:'1%',sortable:false },
     ]
   }),
@@ -100,8 +101,8 @@ export default {
       this.setDialog()
       this.setEditItem(item)
     },
-    deleteItem(){
-      confirm('Are you sure you want to delete this item?') && this.deleteItem()
+    deleteAction(id){
+      confirm('Are you sure you want to delete this item?') && this.deleteItem(id)
     }
   }
 };

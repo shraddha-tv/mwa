@@ -1,9 +1,9 @@
 <template>
   <v-dialog v-model="dialog" width="800px" persistent scrollable>
     <v-card>
-      <v-card-title class="blue white--text">
+      <v-card-title :class="`${titleColor} white--text`">
         <v-layout justify-space-between>
-          <v-flex>Create New Item</v-flex>
+          <v-flex>{{titleName}} Item</v-flex>
           <v-btn icon @click="close">
             <v-icon color="white">close</v-icon>
           </v-btn>
@@ -11,7 +11,7 @@
       </v-card-title>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-row class="mx-2">
+          <v-row class="mt-2">
             <v-col cols="6">
               <v-autocomplete
                 label="Farmer Name"
@@ -30,18 +30,18 @@
                 v-model="item.name_id"
                 :rules="rules"
                 :items="asserts.name"
-                item-text="name"
+                item-text="name_sin"
                 item-value="id"
               />
             </v-col>
             <v-col cols="6">
-              <v-text-field label="Price" v-model="item.price" />
+              <v-text-field prefix="Rs:" label="Price" v-model="item.price" type="number" />
             </v-col>
-            <v-col cols="6">
-              <v-text-field label="Available Amount" v-model="item.available_amount" />
+            <v-col cols="4">
+              <v-text-field label="Available Amount" v-model="item.available_amount" type="number" />
             </v-col>
-            <v-col cols="6">
-              <v-text-field label="Unit Price" v-model="item.unit_price" />
+            <v-col cols="2">
+              <v-select label="Unit" v-model="item.unit_price" :items="units" />
             </v-col>
             <v-col cols="6">
               <v-select
@@ -52,14 +52,13 @@
                 item-value="id"
               />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" v-if="item.id">
               <v-text-field label="State" v-model="item.state" />
             </v-col>
           </v-row>
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn text color="primary">More</v-btn>
         <v-spacer />
         <v-btn text color="primary" @click="close">Cancel</v-btn>
         <v-btn text @click="save">Save</v-btn>
@@ -75,13 +74,15 @@ export default {
     valid: true,
     search: "",
     item: {
+      id: "",
       user_id: "",
       name_id: "",
       price: "",
       available_amount: "",
       unit_price: ""
     },
-    rules: [v => !!v || "This Field is required"]
+    rules: [v => !!v || "This Field is required"],
+    units:["Kg","පැකට්","ගෙඩි","පෙට්ටි","වෙනත්"]
   }),
   watch: {
     dialog(val) {
@@ -94,7 +95,13 @@ export default {
       farmers: "user/getUsers",
       editItem: "goods/getEditItem",
       asserts: "goods/getAsserts"
-    })
+    }),
+    titleName() {
+      return this.item.id ? "Update" : "Add New";
+    },
+    titleColor() {
+      return this.item.id ? "grey" : "primary";
+    }
   },
   methods: {
     ...mapActions({
@@ -114,11 +121,10 @@ export default {
     save() {
       if (this.$refs.form.validate()) {
         if (this.editItem.id) {
-          this.updateItem(this.item);
+          this.updateItem(this.item).then(response => this.close());
         } else {
-          this.addNewItem(this.item);
+          this.addNewItem(this.item).then(responce => this.close());
         }
-        setTimeout(this.close(), 5000);
       }
     },
     // addNewItem(item) {
@@ -131,6 +137,7 @@ export default {
     // },
     close() {
       (this.item = {
+        id: "",
         user_id: "",
         name_id: "",
         price: "",
@@ -142,8 +149,8 @@ export default {
       this.$refs.form.resetValidation();
     },
 
-    userSearch(){
-      this.getFarmers(this.search)
+    userSearch() {
+      this.getFarmers(this.search);
     }
   }
 };

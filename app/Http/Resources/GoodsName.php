@@ -14,6 +14,12 @@ class GoodsName extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'name_sin' => $this->name_sin,
+            'name_eng' => $this->name_eng,
+            'state' => $this->state,
+        ];
     }
 }

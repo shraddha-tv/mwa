@@ -67,8 +67,6 @@ export const update_user = ({ commit, dispatch }, item) => {
 export const delete_user = ({ dispatch }, id) => {
     return new Promise((resolve, reject) => {
         axios.delete(`api/users/${id}`).then(response => {
-            // Get All Updated users in Database
-            dispatch('get_users')
             // Show Success Massage After Deleted Bank
             dispatch('set_message', { message: "Bank Deleted Successfully", type: 'success' }, { root: true })
             resolve(response);
@@ -105,6 +103,22 @@ export const get_farmers = ({ dispatch, commit },query) => {
             params: { searchquery: query }
         }).then(response => {
             commit('set_all_users', response.data)
+            resolve(response);
+        }, error => {
+            // Show Error Massage, When Faild to Delete Bank
+            dispatch('set_message', { message: error.response.statusText, type: 'error' }, { root: true })
+            reject(error);
+        })
+    })
+}
+
+// **********************************************************************************************************
+//                           Delete Given Bank in the Database
+// **********************************************************************************************************
+export const get_farmer_profile = ({ dispatch, commit },id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`api/public/farmer/${id}`).then(response => {
+            commit('set_active_user', response.data)
             resolve(response);
         }, error => {
             // Show Error Massage, When Faild to Delete Bank

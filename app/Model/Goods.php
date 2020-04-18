@@ -10,11 +10,21 @@ class Goods extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'name_id',
         'price',
         'unit_price',
+        "category_id",
+        "user_id",
         'available_amount',
         'state',
     ];
+
+    public function goodsName(){
+        return $this->belongsTo('App\Model\GoodsName','name_id');
+    }
+
+    public function farmer(){
+        return $this->belongsTo('App\User','user_id');
+    }
     
 }

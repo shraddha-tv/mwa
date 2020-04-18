@@ -49,7 +49,8 @@ class GoodCategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = GoodCategory::findOrFail($id);
+        return new CategoryResource($item);
     }
 
     /**

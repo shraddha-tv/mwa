@@ -16,7 +16,7 @@ class CreateGoodsTable extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
             $table->integer('price');
-            $table->integer('unit_price');
+            $table->string('unit_price');
             $table->unsignedBigInteger('name_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');

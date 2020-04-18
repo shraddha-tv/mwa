@@ -11,6 +11,8 @@ class GoodsName extends Model
 
     protected $fillable = [
         'name',
+        'name_sin',
+        'name_eng',
         'state',
     ];
 }

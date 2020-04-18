@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <navigation-bar></navigation-bar>
+    <navigation-bar :drawer="drawer"></navigation-bar>
 
     <v-app-bar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -60,7 +60,7 @@ import navigation from './Main/NavigationBar'
       'navigation-bar':navigation
     },
     data: () => ({
-      
+      drawer:true
     }),
   }
 </script>

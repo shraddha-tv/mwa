@@ -10,11 +10,14 @@ class Location extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        ' address',
-        ' district',
-        ' province',
-        ' grama_niladari_wasama',
-        ' divisional_secretariat',
-        ' state',
+        'address',
+        'district',
+        'province',
+        'gs_division',
+        'divisional_secretariat',
+        'latitude',
+        'longitude',
+        'user_id',
+        'state',
     ];
 }

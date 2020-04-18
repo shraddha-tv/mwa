@@ -22,7 +22,7 @@
             <v-btn icon @click="editItem(item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="deleteAction(item.id)">
               <v-icon>delete</v-icon>
             </v-btn>
           </v-layout>
@@ -98,8 +98,8 @@ export default {
       this.setDialog()
       this.setEditItem(item)
     },
-    deleteItem(){
-      confirm('Are you sure you want to delete this item?') && this.deleteItem()
+    deleteAction(id){
+      confirm('Are you sure you want to delete this item?') && this.deleteItem(id)
     }
   }
 };

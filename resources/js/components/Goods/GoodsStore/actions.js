@@ -95,3 +95,53 @@ export const get_asserts = ({ dispatch, commit }) => {
         })
     })
 }
+
+// **********************************************************************************************************
+//                           Delete Given Bank in the Database
+// **********************************************************************************************************
+export const item_search = ({ dispatch, commit },query) => {
+    return new Promise((resolve, reject) => {
+        axios.get('api/public/search',{
+            params: { searchquery: query }
+        }).then(response => {
+            commit('set_all_items', response.data)
+            resolve(response);
+        }, error => {
+            // Show Error Massage, When Faild to Delete Bank
+            dispatch('set_message', { message: error.response.statusText, type: 'error' }, { root: true })
+            reject(error);
+        })
+    })
+}
+
+// **********************************************************************************************************
+//                           Delete Given Bank in the Database
+// **********************************************************************************************************
+export const item_advanced_search = ({ dispatch, commit },item) => {
+    return new Promise((resolve, reject) => {
+        axios.post('api/public/search',item).then(response => {
+            commit('set_all_items', response.data)
+            resolve(response);
+        }, error => {
+            // Show Error Massage, When Faild to Delete Bank
+            dispatch('set_message', { message: error.response.statusText, type: 'error' }, { root: true })
+            reject(error);
+        })
+    })
+}
+
+// **********************************************************************************************************
+//                           Delete Given Bank in the Database
+// **********************************************************************************************************
+export const get_goods_profile = ({ dispatch, commit },id) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`api/public/goods/${id}`).then(response => {
+            commit('set_active_goods', response.data)
+            resolve(response);
+        }, error => {
+            // Show Error Massage, When Faild to Delete Bank
+            dispatch('set_message', { message: error.response.statusText, type: 'error' }, { root: true })
+            reject(error);
+        })
+    })
+}

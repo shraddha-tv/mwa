@@ -15,14 +15,19 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
+            $table->text('address');
+            $table->string('gs_division');
+            $table->string('divisional_secretariat');
             $table->string('district');
             $table->string('province');
-            $table->string('grama_niladari_wasama');
-            $table->string('divisional_secretariat');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->unsignedBigInteger('user_id');
             $table->string('state')->default('active');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
         });
     }
 

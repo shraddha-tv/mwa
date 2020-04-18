@@ -16,6 +16,8 @@ class CreateGoodsNamesTable extends Migration
         Schema::create('goods_names', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_sin')->nullable();
+            $table->string('name_eng')->nullable();
             $table->string('state')->default('active');
             $table->timestamps();
             $table->softDeletes();

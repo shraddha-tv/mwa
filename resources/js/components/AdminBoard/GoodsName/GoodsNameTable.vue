@@ -22,7 +22,7 @@
             <v-btn icon @click="editItem(item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="deleteAction(item.id)">
               <v-icon>delete</v-icon>
             </v-btn>
           </v-layout>
@@ -56,6 +56,8 @@ export default {
     headers: [
       { text: "ID", value: "id" },
       { text: "NAME", value: "name" },
+      { text: "NAME SIN", value: "name_sin" },
+      { text: "NAME ENG", value: "name_eng" },
       { text: "STATE", value: "state" },
       { text: "ACTION", value: "action", width:'1%',sortable:false },
     ]
@@ -98,8 +100,8 @@ export default {
       this.setDialog()
       this.setEditItem(item)
     },
-    deleteItem(){
-      confirm('Are you sure you want to delete this item?') && this.deleteItem()
+    deleteAction(id){
+      confirm('Are you sure you want to delete this item?') && this.deleteItem(id)
     }
   }
 };

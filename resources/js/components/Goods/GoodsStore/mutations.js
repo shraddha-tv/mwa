@@ -26,3 +26,10 @@ export const set_edit_item = (state,item) => {
 export const set_asserts = (state,item) => {
     return state.asserts = item
 }
+
+// **********************************************************************************************************
+//                           Set Dialog Value For Toggle Form Dialog
+// **********************************************************************************************************
+export const set_active_goods = (state,item) => {
+    return state.ActiveGoods = item
+}

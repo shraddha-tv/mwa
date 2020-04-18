@@ -49,7 +49,8 @@ class GoodsNameController extends Controller
     */
    public function show($id)
    {
-       //
+    $item = GoodsName::findOrFail($id);
+    return new GoodsNameResource($item);
    }
 
    /**

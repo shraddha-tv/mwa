@@ -40,3 +40,11 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::apiResource('goods_name', 'GoodsNameController');
 
 });
+Route::namespace('API')->group(function () {
+
+    Route::get('public/search', 'GoodsController@search');
+    Route::post('public/search', 'GoodsController@advancedSearch');
+    Route::get('public/farmer/{id}', 'UserController@show');
+    Route::get('public/goods/{id}', 'GoodsController@show');
+
+});

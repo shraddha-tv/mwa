@@ -14,6 +14,7 @@
     </v-card-title>
     <v-card-text>
       <v-data-table :items="allData.data" :headers="headers" hide-default-footer>
+
         <template v-slot:item.action = {item}>
           <v-layout>
             <v-btn icon>
@@ -22,7 +23,7 @@
             <v-btn icon @click="editItem(item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="deleteItem(item.id)">
               <v-icon>delete</v-icon>
             </v-btn>
           </v-layout>
@@ -58,6 +59,8 @@ export default {
       { text: "NAME", value: "name" },
       { text: "EMAIL", value: "email" },
       { text: "NIC", value: "nic" },
+      { text: "Location", value: "location" },
+      { text: "Mobile", value: "contact" },
       { text: "ACTION", value: "action", width:'1%',sortable:false },
     ]
   }),
@@ -90,7 +93,8 @@ export default {
       getUsers: "user/get_users",
       setDialog: "user/set_dialog_form",
       setEditItem: "user/set_edit_item",
-      deleteItem: "user/delete_user"
+      deleteUser: "user/delete_user",
+      updateUser: "user/update_user",
     }),
     openDialog() {
       this.setDialog();
@@ -99,8 +103,16 @@ export default {
       this.setDialog()
       this.setEditItem(item)
     },
-    deleteItem(){
-      confirm('Are you sure you want to delete this item?') && this.deleteItem()
+    deleteItem(id) {
+      var result = confirm("Are you sure you want to delete this item?");
+      if (result) {
+        this.deleteUser(id);
+        this.getUsers(this.search);
+      }
+    },
+    verify(item){
+      item.verify = "verified";
+      this.updateUser(item)
     }
   }
 };

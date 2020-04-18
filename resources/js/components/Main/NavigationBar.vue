@@ -77,12 +77,14 @@
 </template>
 <script>
 export default {
+  props: {
+      drawer: Boolean,
+    },
   data:()=>({
-    
-      drawer: null,
       items: [
         { icon: 'dashboard', text: 'DashBoard',to:'/' },
         { icon: 'person', text: 'Users',to:'/users' },
+        { icon: 'person', text: 'Farmers',to:'/farmers' },
         { icon: 'mdi-history', text: 'Goods',to:'/goods'},
         {
           icon: 'mdi-chevron-up',
